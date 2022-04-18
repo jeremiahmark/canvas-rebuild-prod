@@ -1,3 +1,20 @@
-<div #canvasContainer class="box-container">
-  <app-card *ngFor="let card of cards" [card]="card" [container]="canvasContainer"></app-card>
+<div class="wrapper">
+  <div [formGroup]="zoomForm">
+    <mat-button-toggle-group class="zoom" name="zoom" formControlName="zoom">
+      <mat-button-toggle value="1">XS</mat-button-toggle>
+      <mat-button-toggle value="3">S</mat-button-toggle>
+      <mat-button-toggle value="5">Normal</mat-button-toggle>
+      <mat-button-toggle value="8">L</mat-button-toggle>
+      <mat-button-toggle value="10">XL</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div #canvasContainer class="box-container"
+       [style.width.px]="cellSize * 600"
+       [style.height.px]="cellSize * 480">
+    <app-card *ngFor="let card of cards"
+              [card]="card"
+              [container]="canvasContainer" (actionCard)="selectCard($event)"></app-card>
+  </div>
 </div>
+

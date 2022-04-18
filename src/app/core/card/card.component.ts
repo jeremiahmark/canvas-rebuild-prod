@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { DataService } from '../services/data.service';
+import { Observable } from 'rxjs';
 
 const enum Status {
   OFF = 0,
@@ -14,14 +16,23 @@ const enum Status {
 export class CardComponent implements OnInit, AfterViewInit {
   @Input() public card!: ICard;
   @Input() public container!: HTMLDivElement;
+  @Output() public actionCard: EventEmitter<ICard> = new EventEmitter<ICard>();
   @ViewChild('box') public box!: ElementRef;
   public mouse!: {x: number, y: number};
   public status: Status = Status.OFF;
+  public mouseMove$!: Observable<MouseEvent>;
+  public mouseUp$!: Observable<MouseEvent>;
   private mouseClick!: {x: number, y: number, left: number, top: number};
   private boxPosition!: { left: number, top: number };
   private containerPos!: { left: number, top: number, right: number, bottom: number };
 
-  public ngOnInit(): void {}
+  constructor(private dataService: DataService) {
+  }
+
+  public ngOnInit(): void {
+    this.mouseMove$ = this.dataService.getMouseMove();
+    this.mouseUp$ = this.dataService.getMouseUp();
+  }
 
   public ngAfterViewInit(): void{
     this.loadBox();
@@ -30,8 +41,7 @@ export class CardComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:mousemove', ['$event'])
   public onMouseMove(event: MouseEvent): void{
-    this.mouse = { x: event.clientX, y: event.clientY };
-
+    this.mouse = { x: event.clientX, y: event.clientY};
     if (this.status === Status.RESIZE) {
       this.resize();
     }
@@ -40,24 +50,8 @@ export class CardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private loadBox(): void{
-    const {left, top} = this.box.nativeElement.getBoundingClientRect();
-    this.boxPosition = {left, top};
-    console.log('Box position', this.boxPosition);
-  }
-
-  private loadContainer(): void {
-    // const { left, top } = this.container.nativeElement.getBoundingClientRect();
-    console.log(this.container);
-    const top = this.container.offsetTop;
-    const left = this.container.offsetLeft;
-    const right = left + this.container.clientWidth;
-    const bottom = top + this.container.clientHeight;
-    this.containerPos = { left, top, right, bottom };
-    console.log(this.containerPos);
-  }
-
-  public setStatus(event: MouseEvent, status: number): void{
+  public setStatus(event: MouseEvent, status: number): void {
+    this.actionCard.emit(this.card);
     if (status === 1) {
       event.stopPropagation();
     }
@@ -87,7 +81,6 @@ export class CardComponent implements OnInit, AfterViewInit {
     if (this.moveCondMeet()){
       this.card.left = this.mouseClick.left + (this.mouse.x - this.mouseClick.x);
       this.card.top = this.mouseClick.top + (this.mouse.y - this.mouseClick.y);
-      // console.log(this.left , this.top);
     }
   }
 
@@ -102,6 +95,19 @@ export class CardComponent implements OnInit, AfterViewInit {
       this.mouse.y > this.containerPos.top + offsetTop &&
       this.mouse.y < this.containerPos.bottom - offsetBottom
     );
+  }
+
+  private loadBox(): void{
+    const {left, top} = this.box.nativeElement.getBoundingClientRect();
+    this.boxPosition = {left, top};
+  }
+
+  private loadContainer(): void {
+    const top = this.container.offsetTop;
+    const left = this.container.offsetLeft;
+    const right = left + this.container.clientWidth;
+    const bottom = top + this.container.clientHeight;
+    this.containerPos = { left, top, right, bottom };
   }
 
 }

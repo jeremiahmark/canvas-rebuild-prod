@@ -6,5 +6,8 @@
      (mousedown)="setStatus($event, 2)"
      (window:mouseup)="setStatus($event, 0)"
 >
+  <div class="checkbox-block">
+    <mat-checkbox formControlName="selected"></mat-checkbox>
+  </div>
   <div class="resize-action" (mousedown)="setStatus($event, 1)"></div>
 </div>
