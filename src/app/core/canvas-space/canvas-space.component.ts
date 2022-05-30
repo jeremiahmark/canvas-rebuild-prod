@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { logger } from 'codelyzer/util/logger';
 
 @Component({
   selector: 'app-canvas-space',
@@ -22,7 +21,6 @@ export class CanvasSpaceComponent implements OnInit {
     });
 
     this.zoomForm.valueChanges.subscribe(x => {
-      console.log(x);
       this.dataService.updateCellSize(Number(x.zoom));
     });
     this.dataService.cards().subscribe((cards: ICard[]) => {
