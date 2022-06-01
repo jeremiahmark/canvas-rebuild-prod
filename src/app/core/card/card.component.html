@@ -3,6 +3,7 @@
      [style.height.px]="card.height"
      [style.transform]="'translate3d('+ card.left + 'px,' + card.top + 'px,' + '0px)'"
      [class.active]="status"
+     [dtsSelectItem]="card"
      (mousedown)="setStatus($event, 2)"
      (window:mouseup)="setStatus($event, 0)"
 >

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DragToSelectModule } from 'ngx-drag-to-select';
 
 @Component({
   selector: 'app-canvas-space',
@@ -12,6 +13,10 @@ export class CanvasSpaceComponent implements OnInit {
   cellSize = 5;
   cardUnderAction!: ICard;
   zoomForm!: FormGroup;
+  selected!: any[];
+  selectedCards!:ICard[];
+  documents: any[] = [];
+
 
   constructor(private dataService: DataService, private fb: FormBuilder) { }
 
@@ -19,6 +24,13 @@ export class CanvasSpaceComponent implements OnInit {
     this.zoomForm = this.fb.group({
       zoom: ['']
     });
+    for (let id = 0; id < 12; id++) {
+      this.documents.push({
+        id,
+        name: `Document ${id}`,
+      });
+    }
+
 
     this.zoomForm.valueChanges.subscribe(x => {
       this.dataService.updateCellSize(Number(x.zoom));
@@ -34,6 +46,11 @@ export class CanvasSpaceComponent implements OnInit {
 
   selectCard(card: ICard): void {
     this.cardUnderAction = card;
+  }
+
+  logData(event:any[]):void{
+    console.log(event);
+    console.log(this.selectedCards);
   }
 
 }
