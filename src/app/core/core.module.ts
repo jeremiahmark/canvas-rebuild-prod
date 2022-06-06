@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 
@@ -22,7 +23,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     ReactiveFormsModule,
     MatCheckboxModule,
     MatButtonModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    DragDropModule
   ]
 })
 export class CoreModule { }

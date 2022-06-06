@@ -6,8 +6,11 @@
      [class.active]="status"
      
      (window:mouseup)="setStatus($event, 0)"
+     cdkDrag
      
 >
+<!-- TODO - update the window mousedrag stuff to look into the drag and drop or stick with mdk-->
+<!-- TODO Add imigix here -->
   <!-- <img src="https://imgixpublicbuckettest.s3.amazonaws.com/bali.jpg" [style.width.px]="card.width" [style.height.px]="card.height"> -->
   <img [src]=card.img [style.width.px]="card.width" [style.height.px]="card.height">
 
