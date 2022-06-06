@@ -2,12 +2,19 @@
      [style.width.px]="card.width"
      [style.height.px]="card.height"
      [style.transform]="'translate3d('+ card.left + 'px,' + card.top + 'px,' + '0px)'"
+     [style.background-image]="'url(' + card.img + ')'"
+     [style.background-size]="'100% 100%'"
+     background-repeat="no-repeat"
+     background-position='center'
      [class.active]="status"
      (mousedown)="setStatus($event, 2)"
      (window:mouseup)="setStatus($event, 0)"
 >
+  <!-- <img src="https://imgixpublicbuckettest.s3.amazonaws.com/bali.jpg" [style.width.px]="card.width" [style.height.px]="card.height"> -->
+  <!-- <img [src]=card.img [style.width.px]="card.width" [style.height.px]="card.height"> -->
   <div class="checkbox-block">
     <mat-checkbox formControlName="selected"></mat-checkbox>
   </div>
+
   <div class="resize-action" (mousedown)="setStatus($event, 1)"></div>
 </div>

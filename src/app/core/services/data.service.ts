@@ -62,7 +62,8 @@ export class DataService {
       height: card.height * cellSize,
       top: card.top * cellSize,
       left: card.left * cellSize,
-      id: card.id
+      id: card.id,
+      img: card.img
     };
   }
 }

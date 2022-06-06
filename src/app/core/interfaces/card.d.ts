@@ -4,4 +4,5 @@ interface ICard {
   height: number;
   top: number;
   left: number;
+  img: string;
 }
