@@ -11,10 +11,19 @@
 
   <div #canvasContainer class="box-container"
        [style.width.px]="cellSize * 600"
-       [style.height.px]="cellSize * 480">
+       [style.height.px]="cellSize * 480"
+       cdkDropList
+      [cdkDropListData]="cards"
+      (cdkDropListDropped)="drop($event);multiSelect.dropListDropped($event)"
+       >
     <app-card *ngFor="let card of cards"
+    cdkDrag
+    (pointerdown)="multiSelect.mouseDown($event)"
+    (pointerup)="multiSelect.mouseUp($event)"
+    (cdkDragStarted)="multiSelect.dragStarted();multiDrag.dragStarted($event)"
+    (cdkDragEnded)="multiSelect.dragEnded()"
               [card]="card"
-              [container]="canvasContainer" (actionCard)="selectCard($event)"></app-card>
+              [container]="canvasContainer"></app-card>
   </div>
 </div>
 
